@@ -96,13 +96,13 @@ def main():
         print("8 - Exit")
 
         try:
-            option = int(input("Please choose a number (1-8): "))
+            option = int(input("\nPlease choose a number (1-8): "))
         except ValueError:
             print("Invalid input! Please enter a number 1 - 8!")
             continue
 
         if option == 1:
-            print("All Course Names")
+            print("\nAll Course Names")
             for code, course in catalog.items():
                 print(f"[{code}] {course.course_name}")
 
@@ -112,7 +112,7 @@ def main():
                 course = catalog[course_code]
 
                 if course.level == "Core":
-                    print("Core Course Profile:")
+                    print("\nCore Course Profile:")
                     print(f"Course Code: {course.course_code}")
                     print(f"Course Name: {course.course_name}")
                     print(f"Credit Hours: {course.credit_hours}")
@@ -127,9 +127,10 @@ def main():
         elif option == 3:
             course_code = input("Enter course code to check prerequisites for: ").strip().upper()
             if course_code in catalog:
+                course_name = catalog[course_code].course_name
                 prerequisite = degree_graph.list_incoming_adjacent_vertex(course_code)
                 if prerequisite:
-                    print(f"The prerequisite for {course_code}: ")
+                    print(f"The prerequisite for {course_code} - {course_name}: ")
                     for p in prerequisite:
                         print(f"{p} - {catalog[p].course_name}")
                 else:
@@ -138,11 +139,12 @@ def main():
                 print("Course not found!")
 
         elif option == 4:
-            course_code = input("Enter course code to check unlocked courses for: ").strip().upper()
+            course_code = input("Enter course code to check postrequisite courses for: ").strip().upper()
             if course_code in catalog:
+                course_name = catalog[course_code].course_name
                 unlocked = degree_graph.list_outgoing_adjacent_vertex(course_code)
                 if unlocked:
-                    print(f"Courses unlocked by {course_code}:")
+                    print(f"The postrequisite for {course_code} - {course_name}:")
                     for u in unlocked:
                         print(f"{u} - {catalog[u].course_name}")
                 else:

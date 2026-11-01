@@ -10,19 +10,21 @@ def single_thread_experiment():
     targets = [35, 38, 40]
     start_time = []
     end_time = []
+    results = {}
 
     for val in targets:
         start = time.time_ns()
         start_time.append(start)
 
-        fibonacci(val)
+        results[val] = fibonacci(val)
 
         end = time.time_ns()
         end_time.append(end)
 
     t1 = min(start_time)
     t2 = max(end_time)
-    return t2 - t1
+
+    return results[35], results[38], results[40], (t2 - t1)
 
 def multithread_experiment():
     targets = [35, 38, 40]
@@ -30,13 +32,14 @@ def multithread_experiment():
 
     start_time = []
     end_time = []
+    results = {}
 
     def worker(n):
         # Tracking and recording the start time
         start = time.time_ns()
         start_time.append(start)
 
-        fibonacci(n)
+        results[n] = fibonacci(n)
 
         # Tracking and recording the end time
         end = time.time_ns()
@@ -59,7 +62,7 @@ def multithread_experiment():
     t1 = min(start_time)
     t2 = max(end_time)
 
-    return t2 - t1
+    return results[35], results[38], results[40],(t2 - t1)
 
 def main():
     rounds = 10
@@ -68,23 +71,23 @@ def main():
 
     print("Single-thread fibonacci experiments for 10 rounds")
     for r in range(1, rounds + 1):
-        t_elapsed = single_thread_experiment()
+        v35, v38, v40, t_elapsed = single_thread_experiment()
         single_thread_time.append(t_elapsed)
-        print(f"Round {r:2d}: T = {t_elapsed:,} ns")
+        print(f"Round {r:2d}: Fib(35)={v35:,}, Fib(38)={v38:,}, Fib(40)={v40:,} | T = {t_elapsed:,} ns")
 
     single_avg_time = sum(single_thread_time) / rounds
     print(f"Average Time over {rounds} rounds: {single_avg_time:,.2f} ns")
 
     print("\nMultithreaded fibonacci experiments for 10 rounds")
     for r in range(1, rounds + 1):
-        t_elapsed = multithread_experiment()
+        v35, v38, v40, t_elapsed = multithread_experiment()
         multithread_time.append(t_elapsed)
-        print(f"Round {r:2d}: T = {t_elapsed:,} ns")
+        print(f"Round {r:2d}: Fib(35)={v35:,}, Fib(38)={v38:,}, Fib(40)={v40:,} | T = {t_elapsed:,} ns")
 
     multi_avg_time = sum(multithread_time) / rounds
     print(f"Average Time over {rounds} rounds: {multi_avg_time:,.2f} ns")
 
-    print("Performance Comparison")
+    print("\nPerformance Comparison")
     if multi_avg_time < single_avg_time:
         speedup = single_avg_time / multi_avg_time
         time_saved_pct = ((single_avg_time - multi_avg_time) / single_avg_time) * 100
