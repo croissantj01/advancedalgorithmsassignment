@@ -38,13 +38,6 @@ class Course:
         self.department = department
         self.lecturer = lecturer
 
-    def __str__(self):
-        return (f"[{self.course_code}] {self.course_name}\n"
-                f"  - Credits: {self.credit_hours}\n"
-                f"  - Level: {self.level}\n"
-                f"  - Department: {self.department}\n"
-                f"  - Lecturer: {self.lecturer}")
-
 def main():
     degree_graph = Graph()
 
