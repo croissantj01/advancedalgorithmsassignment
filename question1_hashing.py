@@ -123,7 +123,7 @@ class HashTableOpenAddressing:
         if new_price:
             product.price = new_price
         if new_stock:
-            product.stock = new_stock
+            product.stock_quantity = new_stock
         if new_expiry_date:
             product.expiry_date = new_expiry_date
         return True
